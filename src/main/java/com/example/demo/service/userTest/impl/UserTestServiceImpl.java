@@ -1,10 +1,9 @@
 package com.example.demo.service.userTest.impl;
 
+import com.example.demo.common.result.ResultPager;
 import com.example.demo.dao.UserTestMapper;
 import com.example.demo.model.UserTest;
 import com.example.demo.service.userTest.UserTestService;
-import com.example.demo.utils.Pagination;
-import com.example.demo.utils.ResultPager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

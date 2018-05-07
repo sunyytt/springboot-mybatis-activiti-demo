@@ -1,7 +1,7 @@
 package com.example.demo.service.userTest;
 
+import com.example.demo.common.result.ResultPager;
 import com.example.demo.model.UserTest;
-import com.example.demo.utils.ResultPager;
 
 public interface UserTestService {
 

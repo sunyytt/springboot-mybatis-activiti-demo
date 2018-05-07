@@ -1,4 +1,4 @@
-package com.example.demo.utils;
+package com.example.demo.common.result;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
