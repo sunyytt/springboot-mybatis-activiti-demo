@@ -1,0 +1,44 @@
+package com.example.demo.common;
+
+import org.activiti.engine.RuntimeService;
+import org.activiti.engine.TaskService;
+import org.activiti.engine.task.Task;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+@Service
+@Transactional
+public class ActivitiService {
+    //注入为我们自动配置好的服务
+    @Autowired
+    private RuntimeService runtimeService;
+    @Autowired
+    private TaskService taskService;
+
+
+    /**
+     * 开始流程
+     * @param processDefinitionKey bpmn id
+     * @param variables  可以传任何值 可以为空
+     */
+    public void startProcess(String processDefinitionKey, Map<String, Object> variables) {
+        runtimeService.startProcessInstanceByKey(processDefinitionKey, variables);
+    }
+
+    //获得某个人的任务别表
+    public List<Task> getTasks(String assignee) {
+        return taskService.createTaskQuery().taskCandidateUser(assignee).list();
+    }
+
+    //完成任务
+    public void completeTasks(Boolean joinApproved, String taskId) {
+        Map<String, Object> taskVariables = new HashMap<String, Object>();
+        taskVariables.put("joinApproved", joinApproved);
+        taskService.complete(taskId, taskVariables);
+    }
+}

@@ -40,6 +40,7 @@ public class LeaveServiceImpl implements LeaveService {
 	@Override
 	public List<LeaveInfo> getByUserId(String userId) {
 		ArrayList<LeaveInfo> leaveInfoList = new ArrayList<>();
+//		根据审批人id查询需要审批的任务
 		List<Task> list = testLeaveService.findTaskByUserId(userId);
 		for (Task task : list) {
 			ProcessInstance result = runtimeService.createProcessInstanceQuery().processInstanceId(task.getProcessInstanceId()).singleResult();

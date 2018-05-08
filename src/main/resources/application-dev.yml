@@ -43,7 +43,7 @@ spring:
 #    connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
     activiti:
     ####校验流程文件，默认校验resources下的processes文件夹里的流程文件 false即启动项目，不去校验processes。
-      check-process-definitions: false
+      check-process-definitions: true
   jpa:
   #    database: oracle
     database: mysql
