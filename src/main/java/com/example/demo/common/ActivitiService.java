@@ -19,7 +19,11 @@ public class ActivitiService {
     private RuntimeService runtimeService;
     @Autowired
     private TaskService taskService;
-
+/**
+ * https://blog.csdn.net/fanxiangru999/article/category/7404549
+ * https://my.oschina.net/silenceyawen/blog/1609603
+ * https://my.oschina.net/u/930279/blog/793281
+ */
 
     /**
      * 开始流程
