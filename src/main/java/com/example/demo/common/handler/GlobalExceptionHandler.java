@@ -26,6 +26,6 @@ public class GlobalExceptionHandler {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        log.error("捕获异常:"+ ex.getMessage() + ";eString:" + expMessage);
+        log.error("捕获异常:{};eString:{}",ex.getMessage(), expMessage);
     }
 }

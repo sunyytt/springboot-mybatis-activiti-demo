@@ -1,14 +1,12 @@
 package com.example.demo.controller;
 
 
+import com.example.demo.common.result.ResultPager;
 import com.example.demo.model.User;
 import com.example.demo.service.user.UserService;
+import com.example.demo.utils.ResponseResult;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
-import javax.servlet.http.HttpServletRequest;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * 1.@Controller和@RestController的区别
@@ -18,30 +16,33 @@ import javax.servlet.http.HttpServletRequest;
  *  返回json数据不需要在方法前面加@ResponseBody注解了，但使用@RestController这个注解，
  *  就不能返回jsp,html页面，视图解析器无法解析jsp,html页面
  */
+
+/**
+ * restful 风格
+ */
 @RestController
 @RequestMapping(value = "/user")
 public class UserController {
     @Autowired
     private UserService userService;
-    @RequestMapping("/getUser")
-    public Object getUserById(int userId,HttpServletRequest request){
-        return userService.getUserById(userId);
+    @GetMapping
+    public Object findAllUsers(
+            @RequestParam(name = "current", required = false, defaultValue = "1")
+                    int current,
+            @RequestParam(name= "pageSize",required = false,defaultValue ="10" )
+                    int pageSize
+    ){
+        ResultPager<User> pager = userService.findAllUser(current,pageSize);
+        return ResponseResult.SuccessResult(pager);
     }
-
-    @RequestMapping(value = "/add", produces = {"application/json;charset=UTF-8"})
-    public int addUser(User user)
-    {
-        return userService.addUser(user);
+    @GetMapping("/{id}")
+    public Object getUserById(@PathVariable Integer id){
+        User user = userService.getUserById(id);
+        return ResponseResult.SuccessResult(user);
     }
-
-    @RequestMapping("/all")
-    public Object findAllUser(
-            @RequestParam(name = "pageNum", required = false, defaultValue = "1")
-                    int pageNum,
-            @RequestParam(name = "pageSize", required = false, defaultValue = "10")
-                    int pageSize){
-        //开始分页
-       // PageHelper.startPage(pageNum,pageSize);
-        return userService.findAllUser(pageNum,pageSize);
+    @GetMapping("/user/{name}")
+    public Object getUserByName(@PathVariable String name){
+        User user = userService.getUserByName(name);
+        return ResponseResult.SuccessResult(user);
     }
 }

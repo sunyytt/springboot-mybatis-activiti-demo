@@ -29,7 +29,7 @@ public class RestfulUserController {
      */
     @RequestMapping(value = "/", method = RequestMethod.POST)
     public String postUser(User user){
-        userService.addUser(user);
+//        userService.addUser(user);
         return "success";
     }
 
