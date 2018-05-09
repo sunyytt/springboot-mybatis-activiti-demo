@@ -88,6 +88,7 @@ public class WorkFlowTest {
         logger.info("======审批：完成请假申请任务======");
     }
     //查询历史活动  act_hi_actinst
+    //https://blog.csdn.net/zjx86320/article/details/50363544
     @Test
     public void findHisActivitiList(){
         String processInstanceId = "12508";//一个流程一个   PROC_INST_ID_
