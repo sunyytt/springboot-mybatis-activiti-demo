@@ -34,9 +34,29 @@ public class ActivitiService {
         runtimeService.startProcessInstanceByKey(processDefinitionKey, variables);
     }
 
-    //获得某个人的任务别表
-    public List<Task> getTasks(String assignee) {
+    /**
+     *开始流程
+     * @param processDefinitionKey bpmn id
+     * @param businessKey  一个唯一标识上下文或给定流程定义中的流程实例的键。
+     */
+    public void startProcess(String processDefinitionKey, String businessKey  ) {
+        runtimeService.startProcessInstanceByKey(processDefinitionKey, businessKey);
+    }
+    /**
+     *获得某个人的任务别表
+     * @param assignee
+     * @return List<Task>
+     */
+        public List<Task> getTasks(String assignee) {
         return taskService.createTaskQuery().taskCandidateUser(assignee).list();
+    }
+    /**
+     * 根据审批人id查询需要审批的任务
+     * @param userId
+     * @return List<Task>
+     */
+    public List<Task> findTaskByUserId(String userId) {
+        return taskService.createTaskQuery().taskCandidateOrAssigned(userId).list();
     }
 
     //完成任务
@@ -44,5 +64,20 @@ public class ActivitiService {
         Map<String, Object> taskVariables = new HashMap<String, Object>();
         taskVariables.put("joinApproved", joinApproved);
         taskService.complete(taskId, taskVariables);
+    }
+
+    /**
+     * 审批任务
+     * @param taskId 审批的任务id
+     * @param userId 审批人的id
+     * @param audit  审批意见：通过（pass）or驳回（reject）
+     */
+    public void completeTask(String taskId,String userId,String audit) {
+        Map<String, Object> map = new HashMap<>();
+        //1、认领任务
+        taskService.claim(taskId, userId);
+        //2.完成任务
+        map.put("audit",audit);
+        taskService.complete(taskId, map);
     }
 }

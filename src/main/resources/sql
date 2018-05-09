@@ -1,0 +1,25 @@
+
+Create Table
+CREATE TABLE `t_user` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `username` varchar(30) NOT NULL,
+  `password` varchar(30) NOT NULL,
+  `phone` varchar(30) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=gbk
+CREATE TABLE `work_flow` (
+  `id` varchar(100) NOT NULL,
+  `user_id` varchar(100) DEFAULT NULL,
+  `user_name` varchar(100) DEFAULT NULL,
+  `days` varchar(10) DEFAULT NULL,
+  `reason` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=gbk
+CREATE TABLE `leave_info` (
+  `id` varchar(50) NOT NULL,
+  `leaveMsg` varchar(30) DEFAULT NULL,
+  `status` varchar(10) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=gbk
+
+
