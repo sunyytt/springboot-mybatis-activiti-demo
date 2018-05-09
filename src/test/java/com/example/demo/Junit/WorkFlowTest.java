@@ -3,8 +3,10 @@ package com.example.demo.Junit;
 import com.example.demo.DemoApplication;
 import com.example.demo.model.WorkFlow;
 import com.example.demo.service.workflow.WorkFlowService;
+import org.activiti.engine.HistoryService;
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
+import org.activiti.engine.history.HistoricActivityInstance;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
 import org.junit.Test;
@@ -31,6 +33,8 @@ public class WorkFlowTest {
     private RuntimeService runtimeService;
     @Autowired
     private TaskService taskService;
+    @Autowired
+    private HistoryService historyService;
     /**
      * 启动请假单流程  并获取流程实例
      * 因为该请假单流程可以会启动多个所以每启动一个请假单流程都会在数据库中插入一条新版本的流程数据
@@ -82,6 +86,19 @@ public class WorkFlowTest {
         //完成请假申请任务
         taskService.complete(taskId );
         logger.info("======审批：完成请假申请任务======");
+    }
+    //查询历史活动  act_hi_actinst
+    @Test
+    public void findHisActivitiList(){
+        String processInstanceId = "12508";//一个流程一个   PROC_INST_ID_
+        List<HistoricActivityInstance> list = historyService.createHistoricActivityInstanceQuery()
+                .processInstanceId(processInstanceId)
+                .list();
+        if(list != null && list.size()>0){
+            for(HistoricActivityInstance hai : list){
+                System.out.println(hai.getId()+"  "+hai.getActivityName());
+            }
+        }
     }
 
 //    @Test
