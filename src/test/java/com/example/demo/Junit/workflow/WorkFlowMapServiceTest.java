@@ -1,4 +1,4 @@
-package com.example.demo.Junit;
+package com.example.demo.Junit.workflow;
 
 import com.example.demo.DemoApplication;
 import com.example.demo.dao.FlCorrelationMapper;
@@ -19,7 +19,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
-import org.springframework.util.StringUtils;
 
 import java.util.*;
 

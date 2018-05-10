@@ -1,7 +1,6 @@
-package com.example.demo.Junit;
+package com.example.demo.Junit.workflow;
 
 import com.example.demo.DemoApplication;
-import com.example.demo.model.WorkFlow;
 import com.example.demo.service.workflow.WorkFlowService;
 import org.activiti.bpmn.model.BpmnModel;
 import org.activiti.bpmn.model.FlowElement;
@@ -21,10 +20,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.UUID;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = DemoApplication.class)

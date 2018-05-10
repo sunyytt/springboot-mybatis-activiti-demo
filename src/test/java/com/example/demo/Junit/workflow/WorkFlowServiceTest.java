@@ -1,4 +1,4 @@
-package com.example.demo.Junit;
+package com.example.demo.Junit.workflow;
 
 import com.example.demo.DemoApplication;
 import com.example.demo.dao.FlCorrelationMapper;
