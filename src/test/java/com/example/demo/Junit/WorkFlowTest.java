@@ -43,7 +43,7 @@ public class WorkFlowTest {
     private RepositoryService repositoryService;
     /**
      * 请假流程
-     * 申请按钮：1.insert 关联表：记录业务id，processInstanceid，最新的taskID，下一个审批人，始终一条数据
+     * 申请按钮：1.insert 关联表 fl_correlation：记录业务id，processInstanceid，最新的taskID，下一个审批人，始终一条数据
      *         2.insert 日志表 ：记录申请理由，审批理由，时间，状态等，多条数据
      *         3.发布流程 ProcessInstance processInstance = runtimeService.startProcessInstanceByKey("TestProcess");
      *         4.查询任务 Task t = taskService.createTaskQuery().processInstanceId(processInstance.getId()).singleResult();

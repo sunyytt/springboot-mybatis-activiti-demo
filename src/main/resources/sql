@@ -22,4 +22,27 @@ CREATE TABLE `leave_info` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=gbk
 
+#activiti begin
+CREATE TABLE `fl_correlation` (
+  `id` varchar(50) NOT NULL COMMENT '主键:实例processInstanceid',
+  `business_id` varchar(50) DEFAULT NULL COMMENT '业务id',
+  `task_id` varchar(50) DEFAULT NULL COMMENT '当前任务id',
+  `next_node_id` varchar(50) DEFAULT NULL COMMENT '下一节点用户id',
+  `next_node_name` varchar(50) DEFAULT NULL COMMENT '下一节点用户',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=gbk COMMENT='流程关联表'
+
+CREATE TABLE `fl_logs` (
+  `id` varchar(50) NOT NULL,
+  `fl_correl_id` varchar(50) NOT NULL COMMENT '关联表id',
+  `user_id` varchar(50) DEFAULT NULL COMMENT '当前节点人ID',
+  `user_name` varchar(30) DEFAULT NULL COMMENT '当前节点人',
+  `reason` varchar(100) DEFAULT NULL COMMENT '原因',
+  `status` varchar(10) DEFAULT NULL COMMENT '流程状态：1：提交申请，2：审批同意，3：审批拒绝',
+  `creat_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `commit_time` datetime DEFAULT NULL COMMENT '提交时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=gbk COMMENT='流程日志表'
+#activiti end
+
 
