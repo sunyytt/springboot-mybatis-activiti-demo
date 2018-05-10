@@ -54,34 +54,12 @@ public class TaskListenerProcessTest {
         //web参数
         FlLogs flLogs = new FlLogs();
         flLogs.setUserId("applyID");
-        flLogs.setUserName("王刘");
-        flLogs.setReason("离职：世界那么大，我想去看看。");
+        flLogs.setUserName("郭襄");
+        flLogs.setReason("休假3天");
         flLogs.setStatus("1");
 
-        // 自动执行与Key相对应的流程的最高版本
-        Map<String, Object> variables = new HashMap<String, Object>();
-        variables.put("userId", flLogs.getUserName());
-        variables.put("proMangerIds", "项目经理1,项目经理2");
-        variables.put("mangerIds", "部门经理1,部门经理1");
-        //发布流程 加入variables
-        ProcessInstance processInstance = runtimeService.startProcessInstanceByKey("TestMapProcess",variables);
-
+        ProcessInstance processInstance = runtimeService.startProcessInstanceByKey("TestMapProcess");
         //根据assignee
-        logger.info("======查看["+flLogs.getUserName()+"]个人任务======");
-        String assignee = flLogs.getUserName();
-        //查看我的个人任务 按创建时间排序 升序
-        List<Task> tasks = taskService.createTaskQuery()
-                .taskAssignee(assignee)
-                .orderByTaskCreateTime().desc()
-                .list();
-        for(Task t:tasks){
-            logger.info("ID:{}，姓名:{},接收人:{},开始时间：{},processInstanceId:{}",
-                    t.getId(),
-                    t.getName(),
-                    t.getAssignee(),
-                    t.getCreateTime(),
-                    processInstance.getId());
-        }
         logger.info("======查看["+flLogs.getUserName()+"]个人任务======");
 
         logger.info("======查看当前["+flLogs.getUserName()+"]个人任务======");
@@ -112,8 +90,8 @@ public class TaskListenerProcessTest {
         FlCorrelation flCorrelation = new FlCorrelation();
         flCorrelation.setId(processInstance.getId());
         flCorrelation.setBusinessId("bus-id");
-        String nextNodeId = "项目经理1,项目经理2";
-        String nextNodeName = "先不放";
+        String nextNodeId = "Pro1,Pro2";
+        String nextNodeName = "拉拉";
         String taskId = task2.getId();
 
         flCorrelation.setNextNodeId(nextNodeId);
@@ -134,8 +112,8 @@ public class TaskListenerProcessTest {
     public void commit(){
         //web参数
         FlLogs flLogs = new FlLogs();
-        flLogs.setUserId("项目经理1");
-        flLogs.setUserName("项目经理1");
+        flLogs.setUserId("Pro1");
+        flLogs.setUserName("Pro1");
         flLogs.setReason("不同意");
         flLogs.setStatus("3");
         String flCorrelationid = "95001";
@@ -172,7 +150,7 @@ public class TaskListenerProcessTest {
         }
         //封装参数
         FlCorrelation flCorrelation = new FlCorrelation();
-        flCorrelation.setNextNodeId("部门经理1,部门经理2");
+        flCorrelation.setNextNodeId("dep1,dep2");
         flCorrelation.setNextNodeName("");
         flCorrelation.setId(flCorrelationid);
         if(null != task2){
