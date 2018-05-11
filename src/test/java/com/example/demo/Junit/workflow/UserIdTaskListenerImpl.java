@@ -10,6 +10,6 @@ public class UserIdTaskListenerImpl implements TaskListener {
         //个人任务：通过类查询数据库，将下一个任务的办理人查询获取
         // 根据业务查询，比如查到了"郭襄"
         //然后通过setAssignee()的方法指定任务的办理人
-        delegateTask.setAssignee("郭襄");
+        delegateTask.setAssignee("杨过");
     }
 }

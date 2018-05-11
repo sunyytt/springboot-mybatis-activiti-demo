@@ -10,8 +10,8 @@ public class ProMangerTaskListenerImpl implements TaskListener {
     @Override
     public void notify(DelegateTask delegateTask) {
         List<String> list = new ArrayList<String>();
-        list.add("Pro1");
-        list.add("Pro2");
+        list.add("Pro11");
+        list.add("Pro21");
         delegateTask.addCandidateUsers(list);
 
     }

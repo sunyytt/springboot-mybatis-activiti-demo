@@ -5,6 +5,8 @@ import com.example.demo.dao.FlCorrelationMapper;
 import com.example.demo.dao.FlLogsMapper;
 import com.example.demo.model.FlCorrelation;
 import com.example.demo.model.FlLogs;
+import org.activiti.bpmn.model.BpmnModel;
+import org.activiti.bpmn.model.FlowElement;
 import org.activiti.engine.HistoryService;
 import org.activiti.engine.RepositoryService;
 import org.activiti.engine.RuntimeService;
@@ -58,7 +60,17 @@ public class TaskListenerProcessTest {
         flLogs.setReason("休假3天");
         flLogs.setStatus("1");
 
-        ProcessInstance processInstance = runtimeService.startProcessInstanceByKey("TestMapProcess");
+        ProcessInstance processInstance = runtimeService.startProcessInstanceByKey("TestTaskListenerProcess");
+        logger.info("======查看当前所有节点======");
+        String processDefinitionId=processInstance.getProcessDefinitionId();
+        BpmnModel model = repositoryService.getBpmnModel(processDefinitionId);
+        if(model != null) {
+            Collection<FlowElement> flowElements = model.getMainProcess().getFlowElements();
+            for(FlowElement e : flowElements) {
+                System.out.println("flowelement id:" + e.getId() + "  name:" + e.getName() + "   class:" + e.getClass().toString());
+            }
+        }
+        logger.info("======查看当前所有节点======");
         //根据assignee
         logger.info("======查看["+flLogs.getUserName()+"]个人任务======");
 
@@ -106,17 +118,19 @@ public class TaskListenerProcessTest {
 
         flCorrelationMapper.insert(flCorrelation);
         flLogsMapper.insert(flLogs);
+        taskService.addCandidateUser(taskId,"pro3");
+
     }
 
     @Test
-    public void commit(){
+    public void commit2(){
         //web参数
         FlLogs flLogs = new FlLogs();
         flLogs.setUserId("Pro1");
         flLogs.setUserName("Pro1");
-        flLogs.setReason("不同意");
-        flLogs.setStatus("3");
-        String flCorrelationid = "95001";
+        flLogs.setReason("可以");
+        flLogs.setStatus("2");
+        String flCorrelationid = "110014";
 
         //根据实例id查询当前的taskid
         logger.info("======查看任务======");
@@ -169,14 +183,14 @@ public class TaskListenerProcessTest {
     }
 
     @Test
-    public void commit2(){
+    public void commit(){
         //web参数
         FlLogs flLogs = new FlLogs();
-        flLogs.setUserId("部门经理1");
-        flLogs.setUserName("部门经理1");
-        flLogs.setReason("同意");
-        flLogs.setStatus("2");
-        String flCorrelationid = "72501";
+        flLogs.setUserId("Pro1");
+        flLogs.setUserName("Pro1");
+        flLogs.setReason("不同意");
+        flLogs.setStatus("3");
+        String flCorrelationid = "102501";
 
         //根据实例id查询当前的taskid
         logger.info("======查看任务======");
@@ -205,10 +219,12 @@ public class TaskListenerProcessTest {
                     task2.getAssignee(),
                     task2.getCreateTime());
             logger.info("======查看任务task2======");
+        }else{
+            logger.info("======流程结束======");
         }
         //封装参数
         FlCorrelation flCorrelation = new FlCorrelation();
-        flCorrelation.setNextNodeId("");
+        flCorrelation.setNextNodeId("dep1,dep2");
         flCorrelation.setNextNodeName("");
         flCorrelation.setId(flCorrelationid);
         if(null != task2){

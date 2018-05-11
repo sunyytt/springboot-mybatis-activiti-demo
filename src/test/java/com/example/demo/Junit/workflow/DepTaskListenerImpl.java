@@ -15,8 +15,8 @@ public class DepTaskListenerImpl implements TaskListener {
          * 设置流程变量值：delegateTask.setVariable("inputName", "小明");//inputName流程变量名
          */
         List<String> list = new ArrayList<String>();
-        list.add("dep1");
-        list.add("dep2");
+        list.add("dep11");
+        list.add("dep21");
         delegateTask.addCandidateUsers(list);
 
     }
