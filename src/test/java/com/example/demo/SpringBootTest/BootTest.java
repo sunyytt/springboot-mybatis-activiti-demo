@@ -1,4 +1,4 @@
-package com.example.demo.generator.SpringBootTest;
+package com.example.demo.SpringBootTest;
 
 import com.example.demo.Junit.JunitTest;
 import com.example.demo.common.result.ResultPager;
