@@ -20,8 +20,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
  *  不会自动帮你部署，因此在这之前需要自己手动的部署一次。5.21.0版本的话就不会出现这个问题。
  * 2、注意启动流程引擎的时候传入的key要和流程配置文件中的id保持一致。（以xml文件格式打开查看）
  */
+//@MapperScan("com.example.demo.dao")  DataSourceConfig 中多次扫描了
 @SpringBootApplication
-@MapperScan("com.example.demo.dao")
 public class DemoApplication {
     private static Logger logger = LoggerFactory.getLogger(DemoApplication.class);
 

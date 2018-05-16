@@ -37,7 +37,6 @@ public class CriteriaTestService {
 
         }
         logger.info("size:{}",criteriaTests.size());
-        logger.info("email:{}",criteriaTests.get(0).getEmail());
 
     }
 
@@ -58,6 +57,7 @@ public class CriteriaTestService {
         CriteriaTestExample criteriaTestExample = new CriteriaTestExample();
         criteriaTestExample.createCriteria().andIdEqualTo("1");
         criteriaTestMapper.deleteByExample(criteriaTestExample);
+//        criteriaTestMapper.deleteByPrimaryKey()
     }
 
     @Test

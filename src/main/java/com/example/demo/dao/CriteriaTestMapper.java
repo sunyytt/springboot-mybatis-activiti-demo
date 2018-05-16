@@ -6,8 +6,6 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 public interface CriteriaTestMapper {
-    long countByExample(CriteriaTestExample example);
-
     int deleteByExample(CriteriaTestExample example);
 
     int deleteByPrimaryKey(String id);

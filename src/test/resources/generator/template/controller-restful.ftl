@@ -1,14 +1,12 @@
-package ${basePackage}.web;
+package ${basePackage}.controller;
 
-import ${basePackage}.core.Result;
-import ${basePackage}.core.ResultGenerator;
-import ${basePackage}.model.${modelNameUpperCamel};
-import ${basePackage}.service.${modelNameUpperCamel}Service;
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
+import ${basePackage}.common.result.*;
+import ${basePackage}.utils.ResponseResult;
+import ${modelPackage}.${className};
+import ${servicePackage}.${className}Service;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.Resource;
+import org.springframework.beans.factory.annotation.Autowired;
 import java.util.List;
 
 /**
@@ -16,39 +14,46 @@ import java.util.List;
 */
 @RestController
 @RequestMapping("${baseRequestMapping}")
-public class ${modelNameUpperCamel}Controller {
-    @Resource
-    private ${modelNameUpperCamel}Service ${modelNameLowerCamel}Service;
+public class ${className}Controller {
+    @Autowired
+    private ${className}Service ${entityName}Service;
 
     @PostMapping
-    public Result add(@RequestBody ${modelNameUpperCamel} ${modelNameLowerCamel}) {
-        ${modelNameLowerCamel}Service.save(${modelNameLowerCamel});
-        return ResultGenerator.genSuccessResult();
+    public Result add(@RequestBody ${className} ${entityName}) {
+        ${entityName}Service.save(${entityName});
+        return ResponseResult.SuccessResult();
     }
 
     @DeleteMapping("/{id}")
-    public Result delete(@PathVariable Integer id) {
-        ${modelNameLowerCamel}Service.deleteById(id);
-        return ResultGenerator.genSuccessResult();
+    public Result delete(@PathVariable String id) {
+        ${className} ${entityName} = new ${className}();
+        ${entityName}.setId(id);
+        ${entityName}Service.deleteById(${entityName});
+        return ResponseResult.SuccessResult();
     }
 
     @PutMapping
-    public Result update(@RequestBody ${modelNameUpperCamel} ${modelNameLowerCamel}) {
-        ${modelNameLowerCamel}Service.update(${modelNameLowerCamel});
-        return ResultGenerator.genSuccessResult();
+    public Result update(@RequestBody ${className} ${entityName}) {
+        ${entityName}Service.updateById(${entityName});
+        return ResponseResult.SuccessResult();
     }
 
     @GetMapping("/{id}")
-    public Result detail(@PathVariable Integer id) {
-        ${modelNameUpperCamel} ${modelNameLowerCamel} = ${modelNameLowerCamel}Service.findById(id);
-        return ResultGenerator.genSuccessResult(${modelNameLowerCamel});
+    public Result detail(@PathVariable String id) {
+        ${className} ${entityName} = new ${className}();
+        ${entityName}.setId(id);
+        ${className} result = ${entityName}Service.findById(${entityName});
+        return ResponseResult.SuccessResult(result);
     }
 
     @GetMapping
-    public Result list(@RequestParam(defaultValue = "0") Integer page, @RequestParam(defaultValue = "0") Integer size) {
-        PageHelper.startPage(page, size);
-        List<${modelNameUpperCamel}> list = ${modelNameLowerCamel}Service.findAll();
-        PageInfo pageInfo = new PageInfo(list);
-        return ResultGenerator.genSuccessResult(pageInfo);
+    public Result list(@RequestParam(name = "current", required = false, defaultValue = "1")
+                    int current,
+            @RequestParam(name= "pageSize",required = false,defaultValue ="10" )
+                    int pageSize,
+            ${className} ${entityName}) {
+
+        ResultPager<${className}> pager = ${entityName}Service.selectByConditionPager(current,pageSize,${entityName});
+        return ResponseResult.SuccessResult(pager);
     }
 }
