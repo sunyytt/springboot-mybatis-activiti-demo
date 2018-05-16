@@ -72,7 +72,7 @@ public class CodeGenerator {
         genModelAndMapper(tableName, modelName);
         genService(tableName, modelName);
         //"controller-restful.ftl"
-        genController(tableName, modelName,null);
+        genController(tableName, modelName,"controller-restful.ftl");
     }
     /**
      *  生成Controller
