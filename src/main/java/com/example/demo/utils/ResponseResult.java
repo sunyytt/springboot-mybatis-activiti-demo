@@ -32,4 +32,10 @@ public class ResponseResult {
                 .setMessage(message)
                 .setData(new ArrayList<>());
     }
+    public static Result FailResult(ResultCode resultCode,String message) {
+        return new Result()
+                .setCode(resultCode)
+                .setMessage(message)
+                .setData(new ArrayList<>());
+    }
 }

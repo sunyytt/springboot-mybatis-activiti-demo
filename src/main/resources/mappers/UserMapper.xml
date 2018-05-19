@@ -8,6 +8,8 @@
     <result column="username" property="username" jdbcType="VARCHAR" />
     <result column="password" property="password" jdbcType="VARCHAR" />
     <result column="phone" property="phone" jdbcType="VARCHAR" />
+    <result column="role" property="role" jdbcType="VARCHAR" />
+    <result column="permission" property="permission" jdbcType="VARCHAR" />
   </resultMap>
   <!--输出映射之resultType resultMap
   resultMap 仅仅是作用数据库表字段跟model的属性的映射关系而存在，当需要映射的model的属性跟数据库字段不一样的时候使用，
@@ -15,12 +17,18 @@
 但是，真正项目中的model的属性跟表字段完全对应的概率很小。
   -->
   <sql id="Base_Column_List" >
-    id, username, password, phone
+    id, username, password, phone,role,permission
   </sql>
 
   <select id="selectUsers" resultType="com.example.demo.model.User" >
     select 
     <include refid="Base_Column_List" /> from t_user
+  </select>
+
+  <select id="selectUserByName"  parameterType="java.lang.String" resultType="com.example.demo.model.User" >
+    select
+    <include refid="Base_Column_List" /> from t_user
+    where username = #{username,jdbcType=VARCHAR}
   </select>
 
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >

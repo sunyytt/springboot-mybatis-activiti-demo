@@ -8,6 +8,8 @@ public class User {
     private String password;
 
     private String phone;
+    private String role;
+    private String permission;
 
     public Integer getId() {
         return id;
@@ -39,5 +41,21 @@ public class User {
 
     public void setPhone(String phone) {
         this.phone = phone == null ? null : phone.trim();
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    public String getPermission() {
+        return permission;
+    }
+
+    public void setPermission(String permission) {
+        this.permission = permission;
     }
 }

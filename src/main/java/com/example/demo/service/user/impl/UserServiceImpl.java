@@ -6,6 +6,7 @@ import com.github.pagehelper.PageInfo;
 import com.example.demo.dao.UserMapper;
 import com.example.demo.model.User;
 import com.example.demo.service.user.UserService;
+import org.apache.shiro.authc.UnknownAccountException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,11 +27,14 @@ public class UserServiceImpl implements UserService {
     public User getUserById(int id) {
         return userMapper.selectByPrimaryKey(id);
     }
+
     @Override
     public User getUserByName(String name) {
-
-//        return userMapper.getUserByName(name);
-        return null;
+        User user = userMapper.selectUserByName(name);
+        if (user == null) {
+            throw new UnknownAccountException();
+        }
+        return user;
     }
 
 
