@@ -10,6 +10,7 @@ public class User {
     private String phone;
     private String role;
     private String permission;
+    private String salt;//盐（用户名+随机数）
 
     public Integer getId() {
         return id;
@@ -57,5 +58,13 @@ public class User {
 
     public void setPermission(String permission) {
         this.permission = permission;
+    }
+
+    public String getSalt() {
+        return salt;
+    }
+
+    public void setSalt(String salt) {
+        this.salt = salt;
     }
 }

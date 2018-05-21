@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import javax.servlet.http.HttpServletRequest;
 
 
-@RestControllerAdvice
+@RestControllerAdvice//控制器增强  包含@ControllerAdvice
 public class GlobalExceptionHandler {
     private static final Logger log = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 

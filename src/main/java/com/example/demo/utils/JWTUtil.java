@@ -9,6 +9,10 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 import java.io.UnsupportedEncodingException;
 import java.util.Date;
 
+/**
+ * 校验工具，并且使用用户自己的密码充当加密密钥，这样保证了token 即使被他人截获也无法破解。
+ * 并且我们在token中附带了username信息，并且设置密钥5分钟就会过期。
+ */
 public class JWTUtil {
 
     // 过期时间5分钟

@@ -56,6 +56,11 @@ public class JWTController {
     public Object login(@RequestParam("username") String username,
                       @RequestParam("password") String password) {
         User userBean = userService.getUserByName(username);
+        //盐（用户名+随机数）
+//        String salt = userBean.getSalt();
+        //原密码
+//        String encodedPassword = ShiroKit.md5(password, username + salt);
+
         if (userBean.getPassword().equals(password)) {
             return ResponseResult.SuccessResult("Authorization: "+JWTUtil.sign(username, password));
         } else {

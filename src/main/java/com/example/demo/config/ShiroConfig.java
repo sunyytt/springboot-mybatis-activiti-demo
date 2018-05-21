@@ -1,7 +1,7 @@
 package com.example.demo.config;
 
 import com.example.demo.common.jwt.JWTFilter;
-import com.example.demo.common.shiro.MyRealm;
+import com.example.demo.common.shiro.JWTRealm;
 import org.apache.shiro.mgt.DefaultSessionStorageEvaluator;
 import org.apache.shiro.mgt.DefaultSubjectDAO;
 import org.apache.shiro.spring.LifecycleBeanPostProcessor;
@@ -21,7 +21,7 @@ import java.util.Map;
 public class ShiroConfig {
 
     @Bean("securityManager")
-    public DefaultWebSecurityManager getManager(MyRealm realm) {
+    public DefaultWebSecurityManager getManager(JWTRealm realm) {
         DefaultWebSecurityManager manager = new DefaultWebSecurityManager();
         // 使用自己的realm
         manager.setRealm(realm);
