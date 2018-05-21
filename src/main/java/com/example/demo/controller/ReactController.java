@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import com.example.demo.model.User;
 import com.example.demo.service.user.UserService;
+import com.example.demo.utils.CookieUtils;
 import com.example.demo.utils.JWTUtil;
 import com.example.demo.utils.ResponseResult;
 import org.slf4j.Logger;
@@ -9,7 +10,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.Writer;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -63,15 +65,19 @@ public class ReactController {
      * @return
      */
     @PostMapping("/react/login")
-    public Object login(@RequestBody User user){
+    public Object login(@RequestBody User user,HttpServletResponse response){
         log.info("username:{},password:{}",user.getUsername(),user.getPassword());
         User userBean = userService.getUserByName(user.getUsername());
         Map<String,Object> map = new HashMap<String,Object>();
 
         if (userBean.getPassword().equals(user.getPassword())) {
+//            return ResponseResult.SuccessResult(JWTUtil.sign(user.getUsername(), userBean.getPassword()));
             map.put("status","ok");
             map.put("type","account");
             map.put("currentAuthority","admin");
+            map.put("data",JWTUtil.sign(user.getUsername(), userBean.getPassword()));
+            Cookie cookie = new Cookie("sso_token", JWTUtil.sign(user.getUsername(), userBean.getPassword()));
+            response.addCookie(cookie);
             return map;
         } else {
             map.put("status","error");
