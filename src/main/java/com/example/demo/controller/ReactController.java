@@ -5,6 +5,8 @@ import com.example.demo.service.user.UserService;
 import com.example.demo.utils.CookieUtils;
 import com.example.demo.utils.JWTUtil;
 import com.example.demo.utils.ResponseResult;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +39,12 @@ public class ReactController {
                                @RequestParam(name= "pageSize",required = true,defaultValue ="10" )
                                            int pageSize){
         log.info("=====current:{},pageSize:{}",current,pageSize);
-
+        Subject subject = SecurityUtils.getSubject();
+        if (subject.isAuthenticated()) {
+            log.info("You are already logged in");
+        } else {
+            log.info("You are guest");
+        }
         List<Map<String,Object>> list = new ArrayList<Map<String,Object>>();
         for(int i=0;i<=20;i++){
             Map<String,Object> map = new HashMap<String,Object>();
@@ -76,8 +83,12 @@ public class ReactController {
             map.put("type","account");
             map.put("currentAuthority","admin");
             map.put("data",JWTUtil.sign(user.getUsername(), userBean.getPassword()));
-            Cookie cookie = new Cookie("sso_token", JWTUtil.sign(user.getUsername(), userBean.getPassword()));
-            response.addCookie(cookie);
+//            Cookie cookie = new Cookie("sso_token", JWTUtil.sign(user.getUsername(), userBean.getPassword()));
+//            cookie.setHttpOnly(true);
+//            cookie.setDomain("localhost:8000/");
+//            cookie.setPath("/springboot");
+//            response.addCookie(cookie);
+//            response.addHeader();
             return map;
         } else {
             map.put("status","error");
