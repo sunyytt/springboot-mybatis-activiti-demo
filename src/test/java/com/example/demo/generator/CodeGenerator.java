@@ -54,7 +54,7 @@ public class CodeGenerator {
 //        genController("criteria_test", "","");
 //        genController("criteria_test", "","controller-restful.ftl");
 //        genModelAndMapper("criteria_test","");
-        genCode("criteria_test");
+        genCode("fl_logs");
 
     }
     /**
@@ -72,7 +72,7 @@ public class CodeGenerator {
         genModelAndMapper(tableName, modelName);
         genService(tableName, modelName);
         //"controller-restful.ftl"
-        genController(tableName, modelName,"controller-restful.ftl");
+//        genController(tableName, modelName,"controller-restful.ftl");
     }
     /**
      *  生成Controller

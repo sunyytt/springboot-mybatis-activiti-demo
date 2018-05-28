@@ -6,6 +6,7 @@ import org.activiti.engine.delegate.TaskListener;
 public class ApplyImpl implements TaskListener {
     @Override
     public void notify(DelegateTask delegateTask) {
+
         delegateTask.setAssignee("");
     }
 }

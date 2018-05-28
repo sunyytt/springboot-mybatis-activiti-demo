@@ -11,6 +11,8 @@ public class FlCorrelation {
 
     private String nextNodeName;
 
+    private String currentStatus;
+
     public String getId() {
         return id;
     }
@@ -49,5 +51,13 @@ public class FlCorrelation {
 
     public void setNextNodeName(String nextNodeName) {
         this.nextNodeName = nextNodeName == null ? null : nextNodeName.trim();
+    }
+
+    public String getCurrentStatus() {
+        return currentStatus;
+    }
+
+    public void setCurrentStatus(String currentStatus) {
+        this.currentStatus = currentStatus == null ? null : currentStatus.trim();
     }
 }

@@ -18,6 +18,15 @@ public class FlLogs {
     private Date creatTime;
 
     private Date commitTime;
+    private String nextNode;
+
+    public String getNextNode() {
+        return nextNode;
+    }
+
+    public void setNextNode(String nextNode) {
+        this.nextNode = nextNode;
+    }
 
     public String getId() {
         return id;

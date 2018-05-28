@@ -7,10 +7,83 @@
     <result column="task_id" property="taskId" jdbcType="VARCHAR" />
     <result column="next_node_id" property="nextNodeId" jdbcType="VARCHAR" />
     <result column="next_node_name" property="nextNodeName" jdbcType="VARCHAR" />
+    <result column="current_status" property="currentStatus" jdbcType="VARCHAR" />
   </resultMap>
-  <sql id="Base_Column_List" >
-    id, business_id, task_id, next_node_id, next_node_name
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
   </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, business_id, task_id, next_node_id, next_node_name, current_status
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.example.demo.model.FlCorrelationExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from fl_correlation
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />
@@ -21,11 +94,19 @@
     delete from fl_correlation
     where id = #{id,jdbcType=VARCHAR}
   </delete>
+  <delete id="deleteByExample" parameterType="com.example.demo.model.FlCorrelationExample" >
+    delete from fl_correlation
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
   <insert id="insert" parameterType="com.example.demo.model.FlCorrelation" >
     insert into fl_correlation (id, business_id, task_id, 
-      next_node_id, next_node_name)
+      next_node_id, next_node_name, current_status
+      )
     values (#{id,jdbcType=VARCHAR}, #{businessId,jdbcType=VARCHAR}, #{taskId,jdbcType=VARCHAR}, 
-      #{nextNodeId,jdbcType=VARCHAR}, #{nextNodeName,jdbcType=VARCHAR})
+      #{nextNodeId,jdbcType=VARCHAR}, #{nextNodeName,jdbcType=VARCHAR}, #{currentStatus,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.example.demo.model.FlCorrelation" >
     insert into fl_correlation
@@ -45,6 +126,9 @@
       <if test="nextNodeName != null" >
         next_node_name,
       </if>
+      <if test="currentStatus != null" >
+        current_status,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -62,8 +146,55 @@
       <if test="nextNodeName != null" >
         #{nextNodeName,jdbcType=VARCHAR},
       </if>
+      <if test="currentStatus != null" >
+        #{currentStatus,jdbcType=VARCHAR},
+      </if>
     </trim>
   </insert>
+  <select id="countByExample" parameterType="com.example.demo.model.FlCorrelationExample" resultType="java.lang.Integer" >
+    select count(*) from fl_correlation
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update fl_correlation
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.businessId != null" >
+        business_id = #{record.businessId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.taskId != null" >
+        task_id = #{record.taskId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.nextNodeId != null" >
+        next_node_id = #{record.nextNodeId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.nextNodeName != null" >
+        next_node_name = #{record.nextNodeName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.currentStatus != null" >
+        current_status = #{record.currentStatus,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update fl_correlation
+    set id = #{record.id,jdbcType=VARCHAR},
+      business_id = #{record.businessId,jdbcType=VARCHAR},
+      task_id = #{record.taskId,jdbcType=VARCHAR},
+      next_node_id = #{record.nextNodeId,jdbcType=VARCHAR},
+      next_node_name = #{record.nextNodeName,jdbcType=VARCHAR},
+      current_status = #{record.currentStatus,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
   <update id="updateByPrimaryKeySelective" parameterType="com.example.demo.model.FlCorrelation" >
     update fl_correlation
     <set >
@@ -79,6 +210,9 @@
       <if test="nextNodeName != null" >
         next_node_name = #{nextNodeName,jdbcType=VARCHAR},
       </if>
+      <if test="currentStatus != null" >
+        current_status = #{currentStatus,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
@@ -87,7 +221,8 @@
     set business_id = #{businessId,jdbcType=VARCHAR},
       task_id = #{taskId,jdbcType=VARCHAR},
       next_node_id = #{nextNodeId,jdbcType=VARCHAR},
-      next_node_name = #{nextNodeName,jdbcType=VARCHAR}
+      next_node_name = #{nextNodeName,jdbcType=VARCHAR},
+      current_status = #{currentStatus,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
 </mapper>
