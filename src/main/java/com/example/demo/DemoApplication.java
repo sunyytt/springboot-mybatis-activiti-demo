@@ -25,17 +25,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class DemoApplication {
     private static Logger logger = LoggerFactory.getLogger(DemoApplication.class);
 
-    @Autowired
-    private TaskService taskService;
-    @Autowired
-    private ProcessEngine processEngine;
-
-    @RequestMapping("/")
-    public String index() {
-        System.out.println("------------taskService:>>>>>>" + taskService);
-        System.out.println("------------processEngine:>>>>>>" + processEngine);
-        return "Hello world";
-    }
+//    @Autowired
+//    private TaskService taskService;
+//    @Autowired
+//    private ProcessEngine processEngine;
+//
+//    @RequestMapping("/")
+//    public String index() {
+//        System.out.println("------------taskService:>>>>>>" + taskService);
+//        System.out.println("------------processEngine:>>>>>>" + processEngine);
+//        return "Hello world";
+//    }
 
     public static void main(String[] args) {
         logger.info("应用启动----------------------------");

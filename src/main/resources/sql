@@ -24,25 +24,26 @@ CREATE TABLE `leave_info` (
 
 #activiti begin
 CREATE TABLE `fl_correlation` (
-  `id` varchar(50) NOT NULL COMMENT '主键:实例processInstanceid',
-  `business_id` varchar(50) DEFAULT NULL COMMENT '业务id',
-  `task_id` varchar(50) DEFAULT NULL COMMENT '当前任务id',
-  `next_node_id` varchar(50) DEFAULT NULL COMMENT '下一节点用户id',
-  `next_node_name` varchar(50) DEFAULT NULL COMMENT '下一节点用户',
+  `id` VARCHAR(50) NOT NULL COMMENT '主键:实例processInstanceid',
+  `business_id` VARCHAR(50) DEFAULT NULL COMMENT '业务id',
+  `task_id` VARCHAR(50) DEFAULT NULL COMMENT '当前任务id',
+  `next_node_id` VARCHAR(50) DEFAULT NULL COMMENT '下一节点用户/角色/组id',
+  `next_node_name` VARCHAR(50) DEFAULT NULL COMMENT '下一节点用户/角色/组',
+  `current_status` VARCHAR(50) DEFAULT NULL COMMENT '流程当前状态 1：提交申请(显示待审批)，2：审批同意，3：审批拒绝，4：审批中',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=gbk COMMENT='流程关联表'
+) ENGINE=INNODB DEFAULT CHARSET=gbk COMMENT='流程关联表'
 
 CREATE TABLE `fl_logs` (
-  `id` varchar(50) NOT NULL,
-  `fl_correl_id` varchar(50) NOT NULL COMMENT '关联表id',
-  `user_id` varchar(50) DEFAULT NULL COMMENT '当前节点人ID',
-  `user_name` varchar(30) DEFAULT NULL COMMENT '当前节点人',
-  `reason` varchar(100) DEFAULT NULL COMMENT '原因',
-  `status` varchar(10) DEFAULT NULL COMMENT '流程状态：1：提交申请，2：审批同意，3：审批拒绝',
-  `creat_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `commit_time` datetime DEFAULT NULL COMMENT '提交时间',
+  `id` VARCHAR(50) NOT NULL,
+  `fl_correl_id` VARCHAR(50) NOT NULL COMMENT '关联表id',
+  `user_id` VARCHAR(50) DEFAULT NULL COMMENT '当前节点人ID',
+  `user_name` VARCHAR(30) DEFAULT NULL COMMENT '当前节点人',
+  `reason` VARCHAR(100) DEFAULT NULL COMMENT '原因',
+  `status` VARCHAR(10) DEFAULT NULL COMMENT '流程状态：申请（0：未提交 1：提交申请，）审批（2：审批同意，3：审批拒绝）',
+  `creat_time` DATETIME DEFAULT NULL COMMENT '创建时间',
+  `commit_time` DATETIME DEFAULT NULL COMMENT '提交时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=gbk COMMENT='流程日志表'
+) ENGINE=INNODB DEFAULT CHARSET=gbk COMMENT='流程日志表'
 #activiti end
 
 

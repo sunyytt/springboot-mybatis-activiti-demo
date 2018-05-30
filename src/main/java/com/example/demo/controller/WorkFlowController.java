@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/flow")
+@RequestMapping("/api/flow")
 public class WorkFlowController {
     @Autowired
     WorkFlowService workFlowService;
@@ -22,7 +22,7 @@ public class WorkFlowController {
     @PostMapping("/1")
     public Object apply(@RequestBody FlLogs flLogs){
         flLogs = workFlowService.apply(flLogs);
-        return ResponseResult.SuccessResult(flLogs);
+        return ResponseResult.SuccessResult();
     }
 
     @PostMapping("/2")
@@ -31,16 +31,16 @@ public class WorkFlowController {
        return ResponseResult.SuccessResult();
     }
 
-    @PostMapping("/3")
+    @PostMapping("/{current}/{pageSize}")
     public Object queryMyTask(
-            @PathVariable(value="current")  int current,
-            @PathVariable(value="pageSize")  int pageSize,
+            @PathVariable(value="current",required = true)  int current,
+            @PathVariable(value="pageSize",required = true)  int pageSize,
             @RequestBody FlLogs flLogs ){
         ResultPager<FlLogs> pager = workFlowService.queryMyTask(current,pageSize,flLogs);
         return ResponseResult.SuccessResult(pager);
     }
 
-    @PostMapping("/4")
+    @PostMapping("/{current}/{pageSize}/{role}")
     public Object queryMyApproves(
             @PathVariable(value="current",required = true)  int current,
             @PathVariable(value="pageSize",required = true)  int pageSize,

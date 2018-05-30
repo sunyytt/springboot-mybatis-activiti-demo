@@ -74,13 +74,25 @@ public class WorkFlowServiceImpl implements WorkFlowService {
         flLogs.setCreatTime(new Date());
         flLogsMapper.insertSelective(flLogs);
     }
+    private List<String> getRoles(String roleId){
+        Map<String,List> rolesMap = new HashMap<>();
+        String[] role1 = {"鹿晗","范冰冰","冯小刚","Bigbang"};
+        String[] role2 = {"小李","小王","小红"};
+        rolesMap.put("role1",Arrays.asList(role1));
+        rolesMap.put("role2",Arrays.asList(role2));
+        if(rolesMap.containsKey(roleId)){
+            return  rolesMap.get(roleId);
+        }else{
+            return null;
+        }
+    }
 
     @Transactional
     public FlLogs apply(FlLogs flLogs){
         // 自动执行与Key相对应的流程的最高版本
         Map<String, Object> variables = new HashMap<String, Object>();
         variables.put("applyId", flLogs.getUserId());
-//        variables.put("approves", flLogs.getNextNode());
+        variables.put("roles", getRoles(flLogs.getNextNode()));
         /**在部署流程定义和启动流程实例的中间，设置组任务的办理人，向Activity表中存放组和用户的信息*/
 
         //IdentityService identityService = processEngine.getIdentityService();//认证：保存组和用户信息
@@ -103,7 +115,7 @@ public class WorkFlowServiceImpl implements WorkFlowService {
         taskService.complete(taskId);
         FlCorrelation flCorrelation = new FlCorrelation();
         flCorrelation.setId(processInstance.getId());
-        flCorrelation.setNextNodeId("部门经理");
+        flCorrelation.setNextNodeId(flLogs.getNextNode());
         flCorrelation.setCurrentStatus("1");
         String taskId2 = taskService.createTaskQuery().processInstanceId(processInstance.getId()).singleResult().getId();
         flCorrelation.setTaskId(taskId2);

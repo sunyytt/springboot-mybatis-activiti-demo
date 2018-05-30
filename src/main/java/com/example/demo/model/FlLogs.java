@@ -18,6 +18,7 @@ public class FlLogs {
     private Date creatTime;
 
     private Date commitTime;
+
     private String nextNode;
 
     public String getNextNode() {
