@@ -36,6 +36,8 @@ public class ${className}ServiceImpl implements ${className}Service {
     public void deleteByCondition(${className} ${entityName}){
         ${className}Example ${entityName}Example = new ${className}Example();
         //like ${entityName}Example.createCriteria().andIdEqualTo("1");
+        //example.setOrderByClause("字段名 ASC"); //升序排列，desc为降序排列。
+        //example.setDistinct(false)//去除重复，boolean型，true为选择不重复的记录。
         ${entityName}Mapper.deleteByExample(${entityName}Example);
     }
 

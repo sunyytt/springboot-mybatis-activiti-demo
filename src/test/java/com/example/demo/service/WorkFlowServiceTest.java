@@ -76,8 +76,13 @@ public class WorkFlowServiceTest {
     @Test
     public void queryMyApproves(){
         FlLogs flLogs = new FlLogs();
-        ResultPager<FlLogs> pager = workFlowService.queryMyApproves(1,10,flLogs,"部门经理");
+        ResultPager<FlLogs> pager = workFlowService.queryMyApproves(1,10,flLogs,"role1");
         pager.getList().forEach(f->logger.info("userId:{}，status:{}",f.getUserId(),f.getStatus()));
+    }
+    @Test
+    public void detail(){
+        FlLogs flLogs = workFlowService.getFlLogsById("b19e7426-0660-41a0-8b3f-ad189b3770a5");
+        System.out.println(flLogs.getFlCorrelId());
     }
 
 }

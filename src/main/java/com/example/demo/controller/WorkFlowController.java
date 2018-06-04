@@ -4,6 +4,7 @@ import com.example.demo.common.result.ResultPager;
 import com.example.demo.model.FlLogs;
 import com.example.demo.service.workflow.WorkFlowService;
 import com.example.demo.utils.ResponseResult;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,7 +16,11 @@ public class WorkFlowController {
 
     @PostMapping
     public Object add(@RequestBody FlLogs flLogs){
-        workFlowService.save(flLogs);
+        if(StringUtils.isEmpty(flLogs.getId())){
+            workFlowService.save(flLogs);
+        }else{
+            workFlowService.update(flLogs);
+        }
         return ResponseResult.SuccessResult();
     }
 
@@ -49,6 +54,18 @@ public class WorkFlowController {
 
         ResultPager<FlLogs> pager = workFlowService.queryMyApproves(current,pageSize,flLogs,role);
         return ResponseResult.SuccessResult(pager);
+    }
+
+    @GetMapping("/{id}")
+    public Object detail( @PathVariable(value="id",required = true) String id){
+        FlLogs flLogs = workFlowService.getFlLogsById(id);
+        return ResponseResult.SuccessResult(flLogs);
+    }
+
+    @DeleteMapping("/{id}")
+    public Object delete(@PathVariable(value="id",required = true) String id){
+        workFlowService.delete(id);
+        return ResponseResult.SuccessResult();
     }
 
 

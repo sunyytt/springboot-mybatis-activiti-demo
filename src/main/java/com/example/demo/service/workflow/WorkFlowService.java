@@ -7,7 +7,10 @@ import com.example.demo.model.WorkFlow;
 import java.util.List;
 
 public interface WorkFlowService {
+    FlLogs getFlLogsById(String id);
+    void update(FlLogs flLogs);
     void save(FlLogs flLogs);
+    void delete(String id);
     FlLogs apply(FlLogs flLogs);
     void approves(FlLogs flLogs);
     ResultPager<FlLogs> queryMyTask(int current, int pageSize, FlLogs flLogs);

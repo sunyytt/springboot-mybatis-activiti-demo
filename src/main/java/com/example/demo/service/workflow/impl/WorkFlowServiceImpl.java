@@ -67,12 +67,25 @@ public class WorkFlowServiceImpl implements WorkFlowService {
     @Autowired
     private FlCorrelationMapper flCorrelationMapper;
 
+
+    public FlLogs getFlLogsById(String id){
+       return flLogsMapper.selectByPrimaryKey(id);
+    }
+
     public void save(FlLogs flLogs){
         String id = UUID.randomUUID().toString();
         flLogs.setId(id);
         flLogs.setStatus("0");
         flLogs.setCreatTime(new Date());
         flLogsMapper.insertSelective(flLogs);
+    }
+
+    public void update(FlLogs flLogs){
+        flLogsMapper.updateByPrimaryKeySelective(flLogs);
+    }
+
+    public void delete(String id){
+        flLogsMapper.deleteByPrimaryKey(id);
     }
     private List<String> getRoles(String roleId){
         Map<String,List> rolesMap = new HashMap<>();
@@ -149,9 +162,9 @@ public class WorkFlowServiceImpl implements WorkFlowService {
         FlCorrelation flCorrelation = new FlCorrelation();
         flCorrelation.setId(flLogs.getFlCorrelId());
         flCorrelation.setCurrentStatus(flLogs.getStatus());
-        flCorrelation.setNextNodeId("");
-        flCorrelation.setNextNodeName("");
-        flCorrelation.setTaskId("");
+//        flCorrelation.setNextNodeId("");
+//        flCorrelation.setNextNodeName("");
+//        flCorrelation.setTaskId("");
         flCorrelationMapper.updateByPrimaryKeySelective(flCorrelation);
     }
 
@@ -166,6 +179,8 @@ public class WorkFlowServiceImpl implements WorkFlowService {
         values.add("1");
         flLogsExample.createCriteria().andUserIdEqualTo(flLogs.getUserId())
                 .andStatusIn(values);
+        flLogsExample.setOrderByClause("status ASC");
+
         List<FlLogs> list = flLogsMapper.selectByExample(flLogsExample);
         for (FlLogs f:list){
             if(f.getStatus().equals("1")){
@@ -189,8 +204,11 @@ public class WorkFlowServiceImpl implements WorkFlowService {
         for(FlCorrelation f:flCorrelations){
             values.add(f.getId());
         }
-        flLogsExample.createCriteria().andFlCorrelIdIn(values);
-        List<FlLogs> list = flLogsMapper.selectByExample(flLogsExample);
+        List<FlLogs> list = new ArrayList<FlLogs>();
+        if(!values.isEmpty()){
+            flLogsExample.createCriteria().andFlCorrelIdIn(values);
+            list = flLogsMapper.selectByExample(flLogsExample);
+        }
         ResultPager<FlLogs> pager = new ResultPager<FlLogs>(list);
         return pager;
     }
