@@ -37,6 +37,11 @@
                         password="tju1895"
         >
         </jdbcConnection>
+        <!--<jdbcConnection driverClass="oracle.jdbc.OracleDriver"-->
+                        <!--connectionURL="jdbc:oracle:thin:@//10.233.12.221:1526/vbsrac"-->
+                        <!--userId="invest"-->
+                        <!--password="invest" >-->
+        <!--</jdbcConnection>-->
         <javaTypeResolver>
             <property name="forceBigDecimals" value="false"/>
         </javaTypeResolver>

@@ -53,7 +53,7 @@ spring:
 mybatis:
   mapper-locations: classpath:mappers/*.xml
   type-aliases-package: com.example.demo.model
-#pagehelper
+#pagehelper <!-- 设置数据库类型 Oracle,Mysql,MariaDB,SQLite,Hsqldb,PostgreSQL六种数据库-->
 pagehelper:
     helperDialect: mysql
     reasonable: true
