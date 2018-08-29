@@ -1,48 +1,75 @@
 package com.example.demo.controller;
 
-
-import com.example.demo.common.result.ResultPager;
-import com.example.demo.model.User;
+import com.example.demo.entity.UserInfo;
 import com.example.demo.service.user.UserService;
-import com.example.demo.utils.ResponseResult;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.data.domain.Page;
+import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.bind.annotation.*;
 
-/**
- * 1.@Controller和@RestController的区别
- * 1.1使用@Controller 注解，在对应的方法上，视图解析器可以解析return 的jsp,html页面，并且跳转到相应页面
- *  若返回json等内容到页面，则需要加@ResponseBody注解
- * 1.2@RestController注解，相当于@Controller+@ResponseBody两个注解的结合，
- *  返回json数据不需要在方法前面加@ResponseBody注解了，但使用@RestController这个注解，
- *  就不能返回jsp,html页面，视图解析器无法解析jsp,html页面
- */
+import javax.servlet.http.HttpServletRequest;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+import java.util.TimeZone;
 
 /**
- * restful 风格
+ * 其中，日期格式需要做转换，在需要日期转换的Controller中使用SpringMVC的注解@initbinder和Spring自带的WebDateBinder类来操作。
+ * WebDataBinder是用来绑定请求参数到指定的属性编辑器.由于前台传到controller里的值是String类型的，
+ * 当往Model里Set这个值的时候，如果set的这个属性是个对象，Spring就会去找到对应的editor进行转换，然后再SET进去。
  */
+
 @RestController
-@RequestMapping(value = "/user")
+@RequestMapping(value = "/test")
 public class UserController {
     @Autowired
     private UserService userService;
-    @GetMapping
-    public Object findAllUsers(
-            @RequestParam(name = "current", required = false, defaultValue = "1")
-                    int current,
-            @RequestParam(name= "pageSize",required = false,defaultValue ="10" )
-                    int pageSize
-    ){
-        ResultPager<User> pager = userService.findAllUser(current,pageSize);
-        return ResponseResult.SuccessResult(pager);
+
+    /**
+     * 获取所有用户
+     * @return
+     */
+    @GetMapping(value = "/getUserList")
+    public List<UserInfo> getUserList() {
+        return userService.getUserList();
     }
-    @GetMapping("/{id}")
-    public Object getUserById(@PathVariable Integer id){
-        User user = userService.getUserById(id);
-        return ResponseResult.SuccessResult(user);
+
+    @GetMapping(value = "/getUserInfo")
+    public UserInfo getUserInfoByName(@RequestParam("name") String name) {
+        return userService.getUserByName(name);
     }
-    @GetMapping("/user/{name}")
-    public Object getUserByName(@PathVariable String name){
-        User user = userService.getUserByName(name);
-        return ResponseResult.SuccessResult(user);
+
+    @GetMapping(value = "/getCurrentUserList")
+    public List<UserInfo> getCurrentUserList(){
+        return userService.getCurrentUserList();
     }
+
+    @GetMapping(value="/getPageUserList")
+    public Page<UserInfo> getPageUserList(){
+        return userService.getPageUserList();
+    }
+
+    @PutMapping(value = "/addUserInfo")
+    public UserInfo addUserInfo(UserInfo userInfo) {
+        return userService.addUserInfo(userInfo);
+    }
+
+    @PostMapping(value ="/updateUserInfo")
+    public UserInfo updateUserInfo(UserInfo userInfo){
+        return userService.updateUserInfoById(userInfo);
+    }
+
+    @PostMapping(value="/deleteUserInfo")
+    public void deleteUserInfo(@RequestParam("id") Long id){
+        userService.deleteUserInfoById(id);
+    }
+
+    @InitBinder
+    protected void init(HttpServletRequest request, ServletRequestDataBinder binder) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));/*TimeZone时区，解决差8小时的问题*/
+        binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, false));
+    }
+
 }
